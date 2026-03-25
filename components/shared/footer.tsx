@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { MapPin, Phone, Mail, Instagram, MessageCircle } from 'lucide-react'
+import { MapPin, Phone, Mail, Instagram, MessageCircle, Music2 } from 'lucide-react'
 
 export default function Footer() {
   return (
@@ -10,20 +10,29 @@ export default function Footer() {
           <div className="flex flex-col gap-4">
             <div>
               <p className="font-serif text-2xl font-bold tracking-wide">ALAMAR</p>
-              <p className="font-sans text-xs tracking-[0.25em] uppercase text-[#D4A574]">HOUSE</p>
+              <p className="font-sans text-xs tracking-[0.25em] uppercase text-[#D4A574]">BEACH HOUSE</p>
             </div>
             <p className="font-sans text-sm text-white/70 leading-relaxed max-w-xs">
               Una villa boutique de lujo a 30 metros del mar en Playa Blanca, San Antero. Tu refugio tropical está esperando.
             </p>
             <div className="flex items-center gap-3 pt-2">
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/alamar_beachhouse"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 flex items-center justify-center rounded-full border border-white/20 hover:border-[#D4A574] hover:text-[#D4A574] transition-colors"
-                aria-label="Instagram de ALAMAR HOUSE"
+                className="w-9 h-9 flex items-center justify-center rounded-full border border-white/20 hover:border-[#D4A574] hover:text-[#D4A574] transition-all duration-300 hover:scale-110"
+                aria-label="Instagram de ALAMAR BEACH HOUSE"
               >
                 <Instagram size={16} />
+              </a>
+              <a
+                href="https://www.tiktok.com/@alamar_beachhouse"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 flex items-center justify-center rounded-full border border-white/20 hover:border-[#D4A574] hover:text-[#D4A574] transition-all duration-300 hover:scale-110"
+                aria-label="TikTok de ALAMAR BEACH HOUSE"
+              >
+                <Music2 size={16} />
               </a>
             </div>
           </div>
@@ -77,7 +86,7 @@ export default function Footer() {
 
         <div className="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="font-sans text-xs text-white/40">
-            © {new Date().getFullYear()} ALAMAR HOUSE. Todos los derechos reservados.
+            © {new Date().getFullYear()} ALAMAR BEACH HOUSE. Todos los derechos reservados.
           </p>
           <p className="font-sans text-xs text-white/40">
             Playa Blanca, San Antero, Córdoba, Colombia

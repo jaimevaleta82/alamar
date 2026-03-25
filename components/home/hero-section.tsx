@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { MapPin, ChevronDown, BedDouble, Waves } from 'lucide-react'
+import { MapPin, ChevronDown, BedDouble, Waves, Instagram, Music2 } from 'lucide-react'
 
 export default function HeroSection() {
   return (
@@ -53,6 +53,28 @@ export default function HeroSection() {
               <ChevronDown size={16} className="group-hover:translate-y-1 transition-transform" />
             </a>
           </div>
+
+          {/* Social Icons */}
+          <div className="flex items-center gap-4 mt-6">
+            <a
+              href="https://www.instagram.com/alamar_beachhouse"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 flex items-center justify-center rounded-full border border-white/30 text-white/80 hover:border-[#D4A574] hover:text-[#D4A574] transition-all duration-300 hover:scale-110"
+              aria-label="Instagram de ALAMAR BEACH HOUSE"
+            >
+              <Instagram size={18} />
+            </a>
+            <a
+              href="https://www.tiktok.com/@alamar_beachhouse"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 flex items-center justify-center rounded-full border border-white/30 text-white/80 hover:border-[#D4A574] hover:text-[#D4A574] transition-all duration-300 hover:scale-110"
+              aria-label="TikTok de ALAMAR BEACH HOUSE"
+            >
+              <Music2 size={18} />
+            </a>
+          </div>
         </div>
 
         {/* Floating Info Card */}
@@ -71,7 +93,7 @@ export default function HeroSection() {
             </div>
             <div className="flex items-center gap-3">
               <BedDouble size={15} className="text-[#7BA696] shrink-0" />
-              <span className="font-sans text-sm text-white/85">4 Habitaciones · Piscina · Jacuzzi</span>
+              <span className="font-sans text-sm text-white/85">4 Habitaciones · 12 Camas · Jacuzzi en Azotea</span>
             </div>
           </div>
           <div className="w-full h-px bg-white/15 mt-4 mb-4" />

@@ -11,6 +11,7 @@ import {
   PartyPopper,
   Sun,
   Flame,
+  Sparkles,
 } from 'lucide-react'
 
 const amenities = [
@@ -21,8 +22,8 @@ const amenities = [
   },
   {
     icon: <Droplets size={22} />,
-    title: 'Jacuzzi',
-    description: 'Relájate en el jacuzzi con hidromasaje bajo las estrellas del Caribe.',
+    title: 'Jacuzzi en la Azotea',
+    description: 'Relájate en el jacuzzi con hidromasaje en la azotea, con vista panorámica al entorno natural.',
   },
   {
     icon: <Sun size={22} />,
@@ -56,8 +57,8 @@ const amenities = [
   },
   {
     icon: <Sofa size={22} />,
-    title: 'Sofás-camas',
-    description: 'Sofás-camas adicionales para ampliar la capacidad hasta 20 personas cómodamente.',
+    title: '12 Camas + Sofás-camas',
+    description: '12 camas en total más sofás-camas adicionales para ampliar la capacidad hasta 20 personas.',
   },
   {
     icon: <PawPrint size={22} />,
@@ -73,6 +74,11 @@ const amenities = [
     icon: <Flame size={22} />,
     title: 'Zona BBQ',
     description: 'Área de parrilla con todo lo necesario para una tarde de asado junto al mar.',
+  },
+  {
+    icon: <Sparkles size={22} />,
+    title: 'Personal de Apoyo',
+    description: 'Incluye personal encargado del aseo. Opcional: preparación de desayuno y almuerzo si provees los víveres.',
   },
 ]
 

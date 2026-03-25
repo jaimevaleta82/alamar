@@ -45,7 +45,7 @@ export default function Navbar() {
               scrolled ? 'text-[#D4A574]' : 'text-[#D4A574]'
             }`}
           >
-            HOUSE
+            BEACH HOUSE
           </span>
         </Link>
 

@@ -36,6 +36,11 @@ const rules = [
     text: 'Respeto por el descanso de vecinos después de las 11 PM',
     allowed: null,
   },
+  {
+    icon: <Volume2 size={18} />,
+    text: 'Respeto y control de los decibeles — ambiente tranquilo y respetuoso',
+    allowed: null,
+  },
 ]
 
 export default function RulesSection() {
