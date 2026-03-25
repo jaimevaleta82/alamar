@@ -32,7 +32,7 @@ const experiences = [
     icon: <Star size={20} className="text-[#7BA696]" />,
     tag: 'Confort de lujo',
     title: 'Lujo accesible y cálido',
-    body: 'Cada detalle fue pensado para tu bienestar: aire acondicionado, WiFi de alta velocidad, cocina completamente equipada, personal de apoyo y servicio de limpieza incluido.',
+    body: '12 camas diseñadas para el confort total. Incluye personal de apoyo encargado del aseo, con opción de preparación de desayuno y almuerzo si provees los víveres.',
     image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/5-O636JYphV7LfpzuG5ecI0z98j7UHCd.jpeg',
     imageAlt: 'Sala principal con diseño de doble altura y escalera',
     reverse: true,
@@ -56,8 +56,8 @@ export default function ExperienceSection() {
             Más que una casa,<br />un estilo de vida
           </h2>
           <p className="mt-5 font-sans text-base text-[#666666] max-w-xl mx-auto leading-relaxed">
-            ALAMAR HOUSE redefine el concepto de vacaciones en la costa colombiana.
-            Cada rincón fue diseñado para inspirar calma, alegría y conexión.
+            ALAMAR BEACH HOUSE redefine el concepto de vacaciones en la costa colombiana.
+            Conecta con la tranquilidad, el descanso y la naturaleza.
           </p>
         </div>
 
