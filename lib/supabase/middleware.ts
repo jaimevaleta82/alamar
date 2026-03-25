@@ -40,7 +40,7 @@ export async function updateSession(request: NextRequest) {
       // If user is already logged in, redirect to dashboard
       if (user) {
         const url = request.nextUrl.clone()
-        url.pathname = '/admin/dashboard'
+        url.pathname = '/admin'
         return NextResponse.redirect(url)
       }
       return supabaseResponse

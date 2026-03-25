@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { MessageCircle } from 'lucide-react'
+import AvailabilityCalendar from './availability-calendar'
 import { calculatePrice, PricingResult } from '@/lib/pricing'
 
 interface FormData {
@@ -43,7 +44,6 @@ interface Props {
 }
 
 export default function ReservationForm({ onPricingChange }: Props) {
-  const router = useRouter()
   const [formData, setFormData] = useState<FormData>({
     fullName: '',
     email: '',
@@ -66,14 +66,25 @@ export default function ReservationForm({ onPricingChange }: Props) {
     if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }))
     }
-    if (
-      (name === 'checkIn' || name === 'checkOut') &&
-      updated.checkIn &&
-      updated.checkOut &&
-      updated.checkOut > updated.checkIn
-    ) {
-      onPricingChange(calculatePrice(new Date(updated.checkIn), new Date(updated.checkOut)))
-    } else if (name === 'checkIn' || name === 'checkOut') {
+    updatePricing(updated.checkIn, updated.checkOut)
+  }
+
+  function handleDateSelect(field: 'checkIn' | 'checkOut', value: string) {
+    const updated = { ...formData, [field]: value }
+    if (field === 'checkIn' && formData.checkOut && value >= formData.checkOut) {
+      updated.checkOut = ''
+    }
+    setFormData(updated)
+    if (errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: undefined }))
+    }
+    updatePricing(updated.checkIn, updated.checkOut)
+  }
+
+  function updatePricing(checkIn: string, checkOut: string) {
+    if (checkIn && checkOut && checkOut > checkIn) {
+      onPricingChange(calculatePrice(new Date(checkIn), new Date(checkOut)))
+    } else {
       onPricingChange(null)
     }
   }
@@ -88,17 +99,17 @@ export default function ReservationForm({ onPricingChange }: Props) {
     setIsSubmitting(true)
     setSubmitError(null)
     try {
-      const res = await fetch('/api/wompi/checkout', {
+      const res = await fetch('/api/booking/request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.error || 'Error al procesar la reserva.')
-      if (data.redirectUrl) {
-        window.location.href = data.redirectUrl
-      } else {
-        router.push(`/pago/resultado?status=pending&reference=${data.reference}`)
+      if (!res.ok) throw new Error(data.error || 'Error al procesar la solicitud.')
+      
+      // Redirect to WhatsApp
+      if (data.whatsappUrl) {
+        window.open(data.whatsappUrl, '_blank')
       }
     } catch (err: unknown) {
       setSubmitError(err instanceof Error ? err.message : 'Error inesperado. Inténtalo de nuevo.')
@@ -112,10 +123,26 @@ export default function ReservationForm({ onPricingChange }: Props) {
   const inputClass = (field: keyof FormErrors) =>
     `${inputBase} ${errors[field] ? 'border-[#D97373] focus:border-[#D97373]' : 'border-[#E8E3D8] focus:border-[#1B4D5C]'}`
 
-  const today = new Date().toISOString().split('T')[0]
-
   return (
     <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-6">
+      {/* Calendar */}
+      <div>
+        <label className="font-sans text-xs font-semibold text-[#2C2C2C] uppercase tracking-wide mb-3 block">
+          Selecciona tus fechas <span className="text-[#D97373]">*</span>
+        </label>
+        <AvailabilityCalendar
+          selectedCheckIn={formData.checkIn}
+          selectedCheckOut={formData.checkOut}
+          onSelectCheckIn={(date) => handleDateSelect('checkIn', date)}
+          onSelectCheckOut={(date) => handleDateSelect('checkOut', date)}
+        />
+        {(errors.checkIn || errors.checkOut) && (
+          <p className="font-sans text-xs text-[#D97373] mt-2">
+            {errors.checkIn || errors.checkOut}
+          </p>
+        )}
+      </div>
+
       {/* Name */}
       <div className="flex flex-col gap-1.5">
         <label htmlFor="fullName" className="font-sans text-xs font-semibold text-[#2C2C2C] uppercase tracking-wide">
@@ -155,32 +182,6 @@ export default function ReservationForm({ onPricingChange }: Props) {
             className={inputClass('phone')}
           />
           {errors.phone && <p className="font-sans text-xs text-[#D97373]">{errors.phone}</p>}
-        </div>
-      </div>
-
-      {/* Dates */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="checkIn" className="font-sans text-xs font-semibold text-[#2C2C2C] uppercase tracking-wide">
-            Fecha de llegada <span className="text-[#D97373]">*</span>
-          </label>
-          <input
-            id="checkIn" name="checkIn" type="date" min={today}
-            value={formData.checkIn} onChange={handleChange}
-            className={inputClass('checkIn')}
-          />
-          {errors.checkIn && <p className="font-sans text-xs text-[#D97373]">{errors.checkIn}</p>}
-        </div>
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="checkOut" className="font-sans text-xs font-semibold text-[#2C2C2C] uppercase tracking-wide">
-            Fecha de salida <span className="text-[#D97373]">*</span>
-          </label>
-          <input
-            id="checkOut" name="checkOut" type="date" min={formData.checkIn || today}
-            value={formData.checkOut} onChange={handleChange}
-            className={inputClass('checkOut')}
-          />
-          {errors.checkOut && <p className="font-sans text-xs text-[#D97373]">{errors.checkOut}</p>}
         </div>
       </div>
 
@@ -224,13 +225,14 @@ export default function ReservationForm({ onPricingChange }: Props) {
 
       <button
         type="submit" disabled={isSubmitting}
-        className="w-full bg-[#1B4D5C] text-white font-sans font-semibold text-sm px-8 py-4 rounded-sm tracking-wide hover:bg-[#2A6B7E] transition-colors duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
+        className="w-full bg-[#25D366] text-white font-sans font-semibold text-sm px-8 py-4 rounded-sm tracking-wide hover:bg-[#20BD5A] transition-colors duration-300 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-3"
       >
-        {isSubmitting ? 'Procesando...' : 'Continuar al pago con Wompi'}
+        <MessageCircle size={20} />
+        {isSubmitting ? 'Enviando...' : 'Solicitar reserva por WhatsApp'}
       </button>
 
       <p className="font-sans text-xs text-[#888880] text-center leading-relaxed">
-        Al reservar aceptas nuestras políticas de cancelación. El pago es procesado de forma segura por Wompi.
+        Tu solicitud será registrada y te contactaremos por WhatsApp para confirmar la disponibilidad y acordar el pago.
       </p>
     </form>
   )
